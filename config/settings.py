@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'users',
 
 ]
 
@@ -94,7 +95,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "users.User"
 
 
 MEDIA_URL = "media/"
