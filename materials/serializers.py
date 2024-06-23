@@ -27,3 +27,18 @@ class CourseSerializer(ModelSerializer):
         if obj.lesson.count():
             return obj.lesson.count()
         return 0
+
+
+class CourseDetailSerializer(ModelSerializer):
+    """
+    Сериализатор для модели детального просмотра course
+    """
+    lesson = LessonSerializer(many=True)
+    count_lesson = SerializerMethodField()
+
+    def get_count_lesson(self, obj):
+        return obj.lesson.count()
+
+    class Meta:
+        model = Course
+        fields = ('name', 'description', 'image', 'lesson', 'count_lesson')
