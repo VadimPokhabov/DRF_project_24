@@ -2,7 +2,7 @@ from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 
 from materials.models import Course, Lesson
-from materials.permissions import IsModerator, IsOwner
+from users.permissions import IsModerator, IsOwner
 from materials.serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer
 
 
