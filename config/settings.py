@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -26,6 +27,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'materials',
+    'rest_framework_simplejwt',
 
 ]
 
@@ -59,7 +61,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 DATABASES = {
     'default': {
@@ -69,7 +70,6 @@ DATABASES = {
         'PASSWORD': os.getenv('PASSWORD_DB'),
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -86,7 +86,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
@@ -99,8 +98,21 @@ STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = "users.User"
 
-
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
