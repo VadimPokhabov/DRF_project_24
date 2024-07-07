@@ -101,3 +101,66 @@ class SubscriptionTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Subscription.objects.all().count(), 0)
         self.assertEqual(response.json(), {"message": "Подписка удалена"})
+
+
+class CourseTestCase(APITestCase):
+    """
+    Тест кейс Course
+    """
+    def setUp(self):
+        self.user = User.objects.create(email="test_1@mail.ru")
+        self.course = Course.objects.create(course_name="testCourse", description="Course_test", owner=self.user)
+        self.client.force_authenticate(user=self.user)
+
+    def test_course_create(self):
+        url = reverse('materials:course-list')
+        data = {
+            "course_name": "Python",
+            "description": "good course",
+        }
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Course.objects.all().count(), 2)
+
+    def test_course_update(self):
+        url = reverse('materials:course-detail', args=(self.course.pk,))
+        data = {
+            "course_name": "Java + ",
+        }
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data.get('course_name', ), "Java + ", )
+
+    # def test_course_retrieve(self):
+    #     url = reverse('materials:course-detail', args=(self.course.pk,))
+    #     response = self.client.get(url)
+    #     data = response.json()
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(data.get('course_name', 'description'), "testCourse", "Course_test")
+
+    def test_course_delete(self):
+        url = reverse('materials:course-detail', args=(self.course.pk,))
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Lesson.objects.all().count(), 0)
+
+    def test_course_list(self):
+        url = reverse('materials:course-list')
+        response = self.client.get(url)
+        print(response)
+        data = response.json()
+        result = {'count': 1,
+                  'next': None,
+                  'previous': None,
+                  'results': [
+                      {'id': self.course.pk,
+                       'lesson_count': response.json()['results'][0]['lesson_count'],
+                       'lesson': [],
+                       'subscription': False,
+                       'course_name': 'testCourse',
+                       'image': None,
+                       'description': 'Course_test',
+                       'owner': self.course.owner.id}]}
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data, result)
