@@ -19,9 +19,10 @@ class Course(models.Model):
         verbose_name="владелец",
         **NULLABLE,
     )
+    amount = models.PositiveIntegerField(verbose_name="стоимость курса", **NULLABLE)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.course_name}"
 
     class Meta:
         verbose_name = "курс обучения"
@@ -50,9 +51,10 @@ class Lesson(models.Model):
         verbose_name="владелец",
         **NULLABLE,
     )
+    amount = models.PositiveIntegerField(verbose_name="стоимость урока", **NULLABLE)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.lesson_name}"
 
     class Meta:
         verbose_name = "урок"
