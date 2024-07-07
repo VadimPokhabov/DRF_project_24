@@ -11,7 +11,11 @@ app_name = UsersConfig.name
 router = DefaultRouter()
 router.register(r"users", UserViewSet, basename="users")
 urlpatterns = [
-    path("payments/", PaymentsListAPIView.as_view(), name="payments_list"),
+    path(
+        "payments/",
+        PaymentsListAPIView.as_view(),
+        name="payments_list"
+    ),
     path(
         "token/",
         TokenObtainPairView.as_view(permission_classes=[AllowAny]),

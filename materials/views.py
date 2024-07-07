@@ -138,10 +138,10 @@ class SubscriptionApiView(APIView):
 
         if subs_item.exists():
             subs_item.delete()
-            message = "подписка удалена"
+            message = "Подписка удалена"
 
         else:
             Subscription.objects.create(user=user, course=course_item)
-            message = "подписка добавлена"
+            message = "Подписка добавлена"
 
         return Response({"message": message})
