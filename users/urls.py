@@ -9,9 +9,21 @@ from users.views import UserViewSet, PaymentsListAPIView
 app_name = UsersConfig.name
 
 router = DefaultRouter()
-router.register(r'users', UserViewSet, basename='users')
+router.register(r"users", UserViewSet, basename="users")
 urlpatterns = [
-    path('payments/', PaymentsListAPIView.as_view(), name='payments_list'),
-    path('token/', TokenObtainPairView.as_view(permission_classes=[AllowAny]), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(permission_classes=[AllowAny]), name='token_refresh'),
+    path(
+        "payments/",
+        PaymentsListAPIView.as_view(),
+        name="payments_list"
+    ),
+    path(
+        "token/",
+        TokenObtainPairView.as_view(permission_classes=[AllowAny]),
+        name="token_obtain_pair",
+    ),
+    path(
+        "token/refresh/",
+        TokenRefreshView.as_view(permission_classes=[AllowAny]),
+        name="token_refresh",
+    ),
 ] + router.urls

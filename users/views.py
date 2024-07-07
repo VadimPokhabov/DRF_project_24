@@ -12,6 +12,7 @@ class UserViewSet(ModelViewSet):
     """
     ViewSet для модели User
     """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -19,9 +20,9 @@ class UserViewSet(ModelViewSet):
         user = serializer.save()
         user.set_password(user.password)
         user.save()
-    
+
     def get_permissions(self):
-        if self.action == 'create':
+        if self.action == "create":
             self.permission_classes = [AllowAny]
             return super().get_permissions()
 
@@ -30,8 +31,9 @@ class PaymentsListAPIView(ListAPIView):
     """
     API для получения списка уроков
     """
+
     serializer_class = PaymentsSerializer
     queryset = Payments.objects.all()
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ('course', 'lesson', 'payment_method')
-    ordering_fields = ('payment_date',)
+    filterset_fields = ("course", "lesson", "payment_method")
+    ordering_fields = ("payment_date",)
