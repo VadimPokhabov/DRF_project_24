@@ -3,6 +3,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from materials.tasks import send_email
 
 from materials.models import Course, Lesson, Subscription
 from materials.paginators import MaterialsPaginator
@@ -19,7 +20,6 @@ class CourseViewSet(viewsets.ModelViewSet):
     """
     ViewSet для модели Course
     """
-
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     pagination_class = MaterialsPaginator
@@ -70,6 +70,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         lesson = serializer.save()
         lesson.owner = self.request.user
+        send_email.delay(lesson.course.pk)
         lesson.save()
 
 
