@@ -76,6 +76,8 @@ class Subscription(models.Model):
         to=Course, on_delete=models.CASCADE, verbose_name="Курс обучения", **NULLABLE
     )
 
+    subscript = models.BooleanField(default=False, verbose_name='Признак подписки')
+
     def __str__(self):
         return f"{self.user} - {self.course}"
 
