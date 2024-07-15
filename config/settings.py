@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "materials",
     "rest_framework_simplejwt",
     'drf_yasg',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -116,3 +117,22 @@ SIMPLE_JWT = {
 
 
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_BACKEND_URL = 'redis://127.0.0.1:6379/0'
+CELERY_BEAT_SCHEDULE = {
+    'send reminder': {
+        'task': 'users.tasks.check_last_login',
+        'schedule': timedelta(seconds=10),
+    },
+}
+
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER_MAIL")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD_MAIL")
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
