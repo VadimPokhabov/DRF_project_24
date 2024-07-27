@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -65,9 +65,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("NAME"),
-        "USER": os.getenv("USER_DB"),
-        "PASSWORD": os.getenv("PASSWORD_DB"),
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT")
     }
 }
 
@@ -118,8 +120,8 @@ SIMPLE_JWT = {
 
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
-CELERY_BACKEND_URL = 'redis://127.0.0.1:6379/0'
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_BACKEND_URL = os.getenv("CELERY_BACKEND_URL")
 CELERY_BEAT_SCHEDULE = {
     'send reminder': {
         'task': 'users.tasks.check_last_login',
