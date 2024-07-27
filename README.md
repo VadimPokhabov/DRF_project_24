@@ -42,9 +42,9 @@ pip install -r requirements.txt
 SECRET_KEY=
 
 #DB_Settings
-NAME=
-USER_DB=
-PASSWORD_DB=
+POSTGRES_DB=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
 
 #API_KEY
 STRIPE_API_KEY=
@@ -54,4 +54,24 @@ EMAIL_HOST=
 EMAIL_PORT=
 EMAIL_HOST_USER_MAIL=
 EMAIL_HOST_PASSWORD_MAIL=
+
+#celery
+CELERY_BROKER_URL=
+CELERY_BACKEND_URL=
+```
+Запуск приложения через Docker:
+
+1. Повторить шаги 1-3
+2. Запустить Docker локально на машине
+3. Выполнить команду в терминале
+```
+docker compose up -d --build
+```
+Данная команда сразу создаст образ, и сбилдит его, т.е. запустит локально в Docker
+
+4. Переходим по ссылке http://localhost:8000/
+
+Чтобы удалить контейнеры после работы с приложением используйте команду
+```
+docker-compose down 
 ```
